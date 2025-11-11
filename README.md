@@ -8,7 +8,7 @@ Sitio web de conversión de unidades físicas en javascript para la materia Adap
 
 
 Sitio Web del convertidor
-![alt screenshot](https://raw.githubusercontent.com/hugocarregno/convertidorUnidadesFisicas/master/qr.png)
+![alt screenshot](https://raw.githubusercontent.com/hugocarregno/conversorUnidadesFisicas/master/qr.png)
 
 ## Web:
 

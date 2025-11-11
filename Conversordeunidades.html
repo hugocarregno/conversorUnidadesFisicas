@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" sizes="16x16" type="image/png" href="Logo-Berni.png"/>
+    <title>Convertidor de Física</title>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background: linear-gradient(rgb(0, 255, 240), blue);
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .Conversor {
+            border: 5px solid black;
+            display: flex;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            gap: 0;
+            flex-direction: column;
+            align-content: stretch;
+            background: linear-gradient(rgb(255, 0, 0), rgb(100, 0, 0), black);
+            width: 600px;
+            box-shadow: 35px 15px 15px rgba(0, 0, 0, 0.3);
+        }
+        .conversion {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-top: 5px solid black;
+            gap: 0px;
+            margin-top: 20px;
+            background: linear-gradient(rgb(255, 255, 0), rgb(190, 190, 0));
+        }
+        .conversion p {
+            margin: 0 10px 0 10px;
+        }
+        input[type="number"] {
+            font-size: 16px;
+            width: 100px;
+            padding: 10px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            height: 42px;
+        }
+        .Resultado {
+            border-top: 5px solid black;
+            padding: 15px;
+            height: 55px;
+            background: linear-gradient(rgb(0,0,255), rgb(0,0,100));
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+
+        }
+        .Resultado h3 {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <img src="images.png" style="position: absolute; top: 20px; left: 35px; width: 150px; height: auto;" alt="Logo">
+    <h1 style="font-size: 80px;">Conversor de Unidades</h1>
+    <div class="container">
+        <div class="Conversor" id="ConversorDeMasaYLongitud">
+            <h2 style="margin: 5px;">Conversor de Longitud y masa</h2>
+            <div>
+                <button onclick="switchToMasa()" style="display: inline;">Cambiar a masa</button>
+                <button onclick="switchToLongitud()" style="display: none;">Cambiar a longitud</button>
+            </div>
+            <div class="conversion" id="ConversionLongitud">
+                <input type="number" id="LongitudInputValue" min="0" placeholder="Ingrese valor">
+                <select id="LongitudUnitSelect">
+                    <option value="Milimetros">milimetros</option>
+                    <option value="Centimetros">centimetros</option>
+                    <option value="Decimetros">decimetros</option>
+                    <option value="Metros" selected>metros</option>
+                    <option value="Decametros">decametros</option>
+                    <option value="Hectometros">hectometros</option>
+                    <option value="Kilometros">kilometros</option>
+                </select>
+                <p>Convertir a:</p>
+                <select id="LongitudUnitSelectObjective">
+                    <option value="Milimetros">milimetros</option>
+                    <option value="Centimetros">centimetros</option>
+                    <option value="Decimetros">decimetros</option>
+                    <option value="Metros">metros</option>
+                    <option value="Decametros">decametros</option>
+                    <option value="Hectometros">hectometros</option>
+                    <option value="Kilometros" selected>kilometros</option>
+                </select>
+            </div>
+            <div class="conversion" id="ConversionMasa" style="display: none;">
+                <input type="number" id="MasaInputValue" placeholder="Ingrese valor">
+                <select id="MasaUnitSelect">
+                    <option value="Miligramos">miligramos</option>
+                    <option value="Centigramos">centigramos</option>
+                    <option value="Decigramos">decigramos</option>
+                    <option value="Gramos" selected>gramos</option>
+                    <option value="Decagramos">decagramos</option>
+                    <option value="Hectogramos">hectogramos</option>
+                    <option value="Kilogramos">kilogramos</option>
+                </select>
+                <p>Convertir a:</p>
+                <select id="MasaUnitSelectObjective">
+                    <option value="Miligramos">miligramos</option>
+                    <option value="Centigramos">centigramos</option>
+                    <option value="Decigramos">decigramos</option>
+                    <option value="Gramos">gramos</option>
+                    <option value="Decagramos">decagramos</option>
+                    <option value="Hectogramos">hectogramos</option>
+                    <option value="Kilogramos" selected>kilogramos</option>
+                </select>
+            </div>
+            <div style="background-color: rgb(190, 190, 0);">
+                <button onclick="convertLongitudMasa()" style="margin-bottom: 15px;">Convertir</button>
+            </div>
+            <div class="Resultado">
+                <h3>Resultado:</h3>
+                <h3 id="resultLongitudMasa"></h3>
+            </div>
+        </div>
+
+
+        <div class="Conversor" id="ConversorDeTemperatura">
+            <h2 style="margin: 15px;">Conversor de Temperatura</h2>
+            <div class="conversion">
+                <input type="number" id="TemperaturaInputValue" placeholder="Ingrese valor">
+                <select id="TemperaturaUnitSelect">
+                    <option value="Celsius" selected>Celsius</option>
+                    <option value="Fahrenheit">Fahrenheit</option>
+                    <option value="Kelvin">Kelvin</option>
+                </select>
+                <p>Convertir a:</p>
+                <select id="TemperaturaUnitSelectObjective">
+                    <option value="Celsius">Celsius</option>
+                    <option value="Fahrenheit">Fahrenheit</option>
+                    <option value="Kelvin" selected>Kelvin</option>
+                </select>
+            </div>
+            <div style="background-color: rgb(190, 190, 0);">
+                <button onclick="convertTemperatura()" style="margin-bottom: 15px;">Convertir</button>
+            </div>
+            <div class="Resultado">
+                <h3>Resultado:</h3>
+                <h3 id="resultTemperatura"></h3>
+            </div>
+        </div>
+
+        <div class="Conversor" id="ConversorDeTiempo">
+            <h2 style="margin: 15px;">Conversor de Tiempo</h2>
+            <div class="conversion">
+                <input type="number" id="TiempoInputValue" placeholder="Ingrese valor">
+                <select id="TiempoUnitSelect">
+                    <option value="Segundos" selected>Segundos</option>
+                    <option value="Minutos">Minutos</option>
+                    <option value="Horas">Horas</option>
+                </select>
+                <p>Convertir a:</p>
+                <select id="TiempoUnitSelectObjective">
+                    <option value="Segundos">Segundos</option>
+                    <option value="Minutos">Minutos</option>
+                    <option value="Horas" selected>Horas</option>
+                </select>
+            </div>
+            <div style="background-color: rgb(190, 190, 0);">
+                <button onclick="convertTiempo()" style="margin-bottom: 15px;">Convertir</button>
+            </div>
+            <div class="Resultado">
+                <h3>Resultado:</h3>
+                <h3 id="resultTiempo"></h3>
+            </div>
+        </div>
+
+        <div class="Conversor" id="ConversorDeAreaCirculo">
+            <h2 style="margin: 15px;">Conversor de Area de un circulo</h2>
+            <div class="conversion">
+                <input type="number" id="RadioInputValue" placeholder="Ingrese el radio" style="width: 110px;">
+                <select id="RadioLongitudUnitSelect">
+                    <option value="Milimetros">milimetros</option>
+                    <option value="Centimetros">centimetros</option>
+                    <option value="Decimetros">decimetros</option>
+                    <option value="Metros" selected>metros</option>
+                    <option value="Decametros">decametros</option>
+                    <option value="Hectometros">hectometros</option>
+                    <option value="Kilometros">kilometros</option>
+                </select>
+                <p>Convertir a:</p>
+                <select id="AreaUnitSelectObjective">
+                    <option value="Milimetros2">milimetros²</option>
+                    <option value="Centimetros2">centimetros²</option>
+                    <option value="Decimetros2">decimetros²</option>
+                    <option value="Metros2" selected>metros²</option>
+                    <option value="Decametros2">decametros²</option>
+                    <option value="Hectometros2">hectometros²</option>
+                    <option value="Kilometros2">kilometros²</option>
+                </select>
+            </div>
+            <div style="background-color: rgb(190, 190, 0);">
+                <button onclick="convertAreaCirculo()" style="margin-bottom: 15px;">Convertir</button>
+            </div>
+            <div class="Resultado">
+                <h3>Resultado:</h3>
+                <h3 id="resultAreaCirculo"></h3>
+            </div>
+        </div>
+
+        <div class="Conversor" id="Conversor de peso">
+            <h2 style="margin: 15px;">Conversor de peso</h2>
+            <div class="conversion">
+                <input type="number" id="MasaInput" placeholder="Ingrese masa">
+                <select id="MasaUnitSelect2">
+                    <option value="Miligramos" id="mg">mg</option>
+                    <option value="Centigramos" id="cg">cg</option>
+                    <option value="Decigramos" id="dg">dg</option>
+                    <option value="Gramos" selected id="g">g</option>
+                    <option value="Decagramos" id="dag">dag</option>
+                    <option value="Hectogramos" id="hg">hg</option>
+                    <option value="Kilogramos" id="kg">kg</option>
+                </select>
+                <p>En:</p>
+                <select id="GravedadUnitSelect">
+                    <option value="9.8">Tierra</option>
+                    <option value="3.73">Marte</option>
+                    <option value="1.62">Luna</option>
+                    <option value="">Personalizado</option>
+                </select>
+                <input type="number" id="GravedadInput" placeholder="Gravedad" value="9.8" disabled style="width: 80px;">
+                <p style="background-color: white; border: 1px solid gray; margin: 0; padding: 11px; border-radius: 2px;">m/s²</p>
+            </div>
+            <div style="background-color: rgb(190, 190, 0);">
+                <button onclick="convertPeso()" style="margin-bottom: 15px;">Convertir</button>
+            </div>
+            <div class="Resultado">
+                <h3>Resultado:</h3>
+                <h3 id="resultPeso"></h3>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Conversor de masa y longitud script -->
+    <script> 
+        const longitudFactors = {
+            "Milimetros": 0.001,
+            "Centimetros": 0.01,
+            "Decimetros": 0.1,
+            "Metros": 1,
+            "Decametros": 10,
+            "Hectometros": 100,
+            "Kilometros": 1000
+        };
+        const longitudSymbols = {
+            "Milimetros": "mm",
+            "Centimetros": "cm",
+            "Decimetros": "dm",
+            "Metros": "m",
+            "Decametros": "dam",
+            "Hectometros": "hm",
+            "Kilometros": "km"
+        };
+        const masaFactors = {
+            "Miligramos": 0.001,
+            "Centigramos": 0.01,
+            "Decigramos": 0.1,
+            "Gramos": 1,
+            "Decagramos": 10,
+            "Hectogramos": 100,
+            "Kilogramos": 1000
+        };
+        const masaSymbols = {
+            "Miligramos": "mg",
+            "Centigramos": "cg",
+            "Decigramos": "dg",
+            "Gramos": "g",
+            "Decagramos": "dag",
+            "Hectogramos": "hg",
+            "Kilogramos": "kg"
+        };
+
+        function convertLongitudMasa() {
+            const isLongitud = document.getElementById('ConversionLongitud').style.display !== 'none';
+            let inputValue, fromUnit, toUnit, factors;
+            if (isLongitud) {
+                if (document.getElementById('LongitudInputValue').value === '') {
+                    document.getElementById('resultLongitudMasa').innerText = 'Ingrese un valor';
+                    return;
+                }
+                if (document.getElementById('LongitudInputValue').value < 0) {
+                    document.getElementById('resultLongitudMasa').innerText = 'No se permiten valores negativos';
+                    return;
+                }
+                inputValue = parseFloat(document.getElementById('LongitudInputValue').value);
+                fromUnit = document.getElementById('LongitudUnitSelect').value;
+                toUnit = document.getElementById('LongitudUnitSelectObjective').value;
+                factors = longitudFactors;
+                symbols = longitudSymbols;
+            } else {
+                if (document.getElementById('MasaInputValue').value === '') {
+                    document.getElementById('resultLongitudMasa').innerText = 'Ingrese un valor';
+                    return;
+                }
+                if (document.getElementById('MasaInputValue').value < 0) {
+                    document.getElementById('resultLongitudMasa').innerText = 'No se permiten valores negativos';
+                    return;
+                }
+                inputValue = parseFloat(document.getElementById('MasaInputValue').value);
+                fromUnit = document.getElementById('MasaUnitSelect').value;
+                toUnit = document.getElementById('MasaUnitSelectObjective').value;
+                factors = masaFactors;
+                symbols = masaSymbols;
+            }
+            const result = (inputValue * factors[fromUnit]) / factors[toUnit];
+            document.getElementById('resultLongitudMasa').innerText = result + " " + symbols[toUnit];
+        }
+        function switchToMasa() {
+            document.getElementById('ConversionLongitud').style.display = 'none';
+            document.getElementById('ConversionMasa').style.display = 'flex';
+            document.querySelector('button[onclick="switchToMasa()"]').style.display = 'none';
+            document.querySelector('button[onclick="switchToLongitud()"]').style.display = 'inline';
+            document.getElementById('resultLongitudMasa').innerText = '';
+        }
+        function switchToLongitud() {
+            document.getElementById('ConversionLongitud').style.display = 'flex';
+            document.getElementById('ConversionMasa').style.display = 'none';
+            document.querySelector('button[onclick="switchToMasa()"]').style.display = 'inline';
+            document.querySelector('button[onclick="switchToLongitud()"]').style.display = 'none';
+            document.getElementById('resultLongitudMasa').innerText = '';
+        }
+    </script>
+
+    <!-- conversor Temperatura Script -->
+    <script>
+        let celcius = 1
+        let farenheit = (celcius * 9/5) + 32
+        let kelvin = celcius + 273.15
+
+        function convertTemperatura() {
+            const inputValue = parseFloat(document.getElementById('TemperaturaInputValue').value);
+            const fromUnit = document.getElementById('TemperaturaUnitSelect').value;
+            const toUnit = document.getElementById('TemperaturaUnitSelectObjective').value;
+
+            if (isNaN(inputValue)) {
+                // show error in the temperature result element
+                document.getElementById('resultTemperatura').innerText = 'Ingrese un valor';
+                return;
+            }
+
+            let result;
+
+            // Convertir a Celsius primero
+            let valueInCelsius;
+            if (fromUnit === 'Celsius') {
+                valueInCelsius = inputValue;
+            } else if (fromUnit === 'Fahrenheit') {
+                valueInCelsius = (inputValue - 32) * 5/9;
+            } else if (fromUnit === 'Kelvin') {
+                valueInCelsius = inputValue - 273.15;
+            }
+
+            // Convertir de Celsius a la unidad objetivo
+            if (toUnit === 'Celsius') {
+                result = valueInCelsius;
+            } else if (toUnit === 'Fahrenheit') {
+                result = (valueInCelsius * 9/5) + 32;
+            } else if (toUnit === 'Kelvin') {
+                result = valueInCelsius + 273.15;
+            }
+
+            document.getElementById('resultTemperatura').innerText = result + '° ' + toUnit;
+        }
+    </script>
+
+<!-- conversor Tiempo Script -->
+    <script>
+        let Segundos = 1
+        let minutos = 60
+        let horas = 3600
+
+        function convertTiempo() {
+            const inputValue = parseFloat(document.getElementById('TiempoInputValue').value);
+            const fromUnit = document.getElementById('TiempoUnitSelect').value;
+            const toUnit = document.getElementById('TiempoUnitSelectObjective').value;
+            if (isNaN(inputValue)) {
+                // show error in the tiempo result element
+                document.getElementById('resultTiempo').innerText = 'Ingrese un valor';
+                return;
+            }
+            if (inputValue < 0) {
+                document.getElementById('resultTiempo').innerText = 'No se permiten valores negativos';
+                return;
+            }
+
+            let result;
+
+            // Convertir a Segundos primero
+            let valueInSegundos;
+
+            if (fromUnit === 'Segundos') {
+                valueInSegundos = inputValue;
+            } else if (fromUnit === 'Minutos') {
+                valueInSegundos = inputValue * 60;
+            } else if (fromUnit === 'Horas') {
+                valueInSegundos = inputValue * 3600;
+            }
+
+            // Convertir de Segundos a la unidad objetivo
+            if (toUnit === 'Segundos') {
+                result = valueInSegundos;
+            } else if (toUnit === 'Minutos') {
+                result = valueInSegundos / 60;
+            } else if (toUnit === 'Horas') {
+                result = valueInSegundos / 3600;
+            }
+            document.getElementById('resultTiempo').innerText = result + ' ' + toUnit;
+        }
+    </script>
+
+    <!-- conversor Area Script -->
+    <script>
+        const areaFactors = {
+            "Milimetros2": 0.000001,
+            "Centimetros2": 0.0001,
+            "Decimetros2": 0.01,
+            "Metros2": 1,
+            "Decametros2": 100,
+            "Hectometros2": 10000,
+            "Kilometros2": 1000000
+        };
+        const areaSymbols = {
+            "Milimetros2": "mm²",
+            "Centimetros2": "cm²",
+            "Decimetros2": "dm²",
+            "Metros2": "m²",
+            "Decametros2": "dam²",
+            "Hectometros2": "hm²",
+            "Kilometros2": "km²"
+        };
+
+        function convertAreaCirculo() {
+            const inputValue = parseFloat(document.getElementById('RadioInputValue').value);
+            const fromUnit = document.getElementById('RadioLongitudUnitSelect').value;
+            const toUnit = document.getElementById('AreaUnitSelectObjective').value;
+
+            if (isNaN(inputValue) || inputValue < 0) {
+                document.getElementById('resultAreaCirculo').innerText = 'Ingrese un valor válido';
+                return;
+            }
+
+            // Convertir el radio a metros
+            const radiusInMeters = inputValue * longitudFactors[fromUnit];
+
+            // Calcular el área en metros cuadrados
+            const areaInMeters2 = Math.PI * Math.pow(radiusInMeters, 2);
+
+            // Convertir el área a la unidad objetivo
+            const result = areaInMeters2 / areaFactors[toUnit];
+            const roundedResult = Math.round(result * 100) / 100; // Redondear a 2 decimales
+
+            document.getElementById('resultAreaCirculo').innerText = roundedResult + ' ' + areaSymbols[toUnit];
+        }
+    </script>
+
+    <!-- Conversor de Gravedad script -->
+    <script>
+        const masaFactors2 = {
+            "Miligramos": 0.001,
+            "Centigramos": 0.01,
+            "Decigramos": 0.1,
+            "Gramos": 1,
+            "Decagramos": 10,
+            "Hectogramos": 100,
+            "Kilogramos": 1000
+        };
+        const masaSymbols2 = {
+            "Miligramos": "mg",
+            "Centigramos": "cg",
+            "Decigramos": "dg",
+            "Gramos": "g",
+            "Decagramos": "dag",
+            "Hectogramos": "hg",
+            "Kilogramos": "kg"
+        };
+        // update Gravedad input depending on selected gravity (keeps behavior)
+        document.getElementById('GravedadUnitSelect').addEventListener('change', function() {
+            const value = this.value;
+            const gravityInput = document.getElementById('GravedadInput');
+            if (value === '') {
+                gravityInput.value = '';
+                gravityInput.disabled = false;
+            } else {
+                gravityInput.value = value;
+                gravityInput.disabled = true;
+            }
+        });
+
+        function convertPeso() {
+            // read current values at click time
+            const inputValue = parseFloat(document.getElementById('MasaInput').value);
+            const fromUnit = document.getElementById('MasaUnitSelect2').value;
+            const gravity = parseFloat(document.getElementById('GravedadInput').value);
+
+            if (isNaN(inputValue)) {
+                document.getElementById('resultPeso').innerText = 'Ingrese un valor';
+                return;
+            }
+            if (inputValue < 0) {
+                document.getElementById('resultPeso').innerText = 'No se permiten valores negativos';
+                return;
+            }
+            if (isNaN(gravity)) {
+                document.getElementById('resultPeso').innerText = 'Ingrese una gravedad válida';
+                return;
+            }
+
+            const massInGrams = inputValue * masaFactors2[fromUnit];
+            const weightInNewtons = massInGrams * gravity / 1000;
+            // Format the weight for display:
+            // - For typical values show 2 decimals
+            // - For very small values avoid showing "0.00" (use significant digits / exponential as needed)
+            let formattedWeight;
+            const absW = Math.abs(weightInNewtons);
+            if (absW === 0) {
+                formattedWeight = '0.00';
+            } else if (absW >= 0.01) {
+                // Normal range: keep 2 decimal places
+                formattedWeight = weightInNewtons.toFixed(2);
+            } else {
+                // Very small values: show up to 3 significant digits to avoid 0.00
+                // toPrecision will switch to exponential notation if necessary
+                formattedWeight = weightInNewtons.toPrecision(3);
+            }
+
+            document.getElementById('resultPeso').innerText = formattedWeight + ' N';
+        }
+    </script>
+</body>
+</html>
